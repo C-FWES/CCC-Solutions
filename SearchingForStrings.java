@@ -1,3 +1,4 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -6,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         String h = "";
         String n = "";
-        try (InputStreamReader in = new InputStreamReader(System.in);
+        try (InputStreamReader in = new InputStreamReader( new BufferedInputStream(System.in));
              BufferedReader buffer = new BufferedReader(in)) {
             n = buffer.readLine();
             h = buffer.readLine();
@@ -34,6 +35,7 @@ public class Main {
 
         Arrays.sort(comparedPermutation);
         String sortedTarget = new String(comparedPermutation);
+
         int targetSum = 0;
         for (char c : comparedPermutation) {
             comparedCharacters.add(c);
@@ -41,6 +43,8 @@ public class Main {
         }
         targetSum *= -1;
 
+
+        boolean previousMatch = false;
         int windowSum = 0;
         for (int i = 0; i < h.length() - windowSize + 1; i++) {
            if (i == 0) {
@@ -50,9 +54,24 @@ public class Main {
                 }
             }
             else {
-                windowSum -= h.charAt(i - 1);
-                windowSum += h.charAt(i + windowSize - 1);
+                char previousFirstChar = h.charAt(i - 1);
+                char lastChar = h.charAt(i + windowSize - 1);
 
+               windowSum -= previousFirstChar;
+               windowSum += lastChar;
+
+                if(previousFirstChar == lastChar) {
+                    if(previousMatch) {
+                        String windowString = h.substring(i, i+windowSize);
+                        permuted.add(windowString);
+                    }
+                    continue;
+                } else {
+                    if(previousMatch) {
+                        previousMatch = false;
+                        continue;
+                    }
+                }
             }
 
             if (windowSum + targetSum == 0) {
@@ -69,12 +88,15 @@ public class Main {
                     Arrays.sort(windowsChar);
                     if (new String(windowsChar).equals(sortedTarget)) {
                         permuted.add(windowString);
+                        previousMatch = true;
+                        continue;
                     }
                 }
             }
+
+            previousMatch = false;
         }
 
         return permuted.size();
     }
 }
-
