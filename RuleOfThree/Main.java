@@ -40,7 +40,7 @@ public class Main {
     }
 
     public static boolean findSequence(Map<String, String> subCodes, int maximumSteps, String initial, String finalString,  List<String> keys, List<String[]> sequences, int currentSteps ) {
-        //Need to remember: Rule number, (1, 2, 3), position index of conversion, and the resulting sequenc
+        //TODO: Need to remember: Rule number, (1, 2, 3), position index of conversion, and the resulting sequenc
         for (int i = 0; i < initial.length(); i++) {
             for (int j = 0; j < keys.size(); j++) {
                 boolean foundRule = initial.startsWith(keys.get(j), i);
@@ -76,16 +76,9 @@ public class Main {
                             return true;
                         }
                     }
-
                 }
-
-
-
-
             }
-
         }
         return false;
-
     }
 }
