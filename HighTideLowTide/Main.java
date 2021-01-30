@@ -16,12 +16,7 @@ public class Main {
 
         int highLength = n/2;
         int lowLength = n - highLength;
-
-//        Integer[] lowTides = Arrays.copyOfRange(measurements, 0, lowLength);
-//        Integer[] hightTides = Arrays.copyOfRange(measurements, lowLength, measurements.length);
-
         LinkedList<Integer> arrangedMeasurements = new LinkedList<>();
-//        reverse(lowTides);
         for (int i = lowLength - 1; i >= 0; i--) {
             arrangedMeasurements.add(measurements[i]);
             int j = 2*lowLength - i - 1;
@@ -29,15 +24,11 @@ public class Main {
             if (j < measurements.length) {
                 arrangedMeasurements.add(measurements[j]);
             }
-
-
         }
 
         for (Integer arrangedMeasurement : arrangedMeasurements) {
             System.out.print(arrangedMeasurement + " ");
         }
-
-
 
     }
 
