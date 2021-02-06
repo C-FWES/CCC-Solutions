@@ -7,7 +7,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int duration = sc.nextInt();
         int sequences = 0;
-//        int time = 1200;
         int minutes = 0;
         String stringMins = "";
         int hours = 12;
