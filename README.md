@@ -6,6 +6,7 @@ Note that some of these solutions will not work correctly in the CCC grader. The
 # This repository hosts solutions for the following CCC problems from past contests:
 * Arrival Time
 * Art
+* Boiling Water
 * Cold Compress
 * Cyclic Shifts
 * Dog Treats
