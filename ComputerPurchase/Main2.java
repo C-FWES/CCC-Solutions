@@ -3,12 +3,14 @@ package ComputerPurchase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 public class Main2 {
-    static class spec {
+    static class Spec {
         String compName;
         int ram;
+        int cpuSpeed;
+        int diskDrive;
+        int perf;
 
         public int getPerf() {
             return perf;
@@ -17,8 +19,6 @@ public class Main2 {
         public void setPerf(int perf) {
             this.perf = perf;
         }
-
-        int perf;
 
 
         public String getCompName() {
@@ -37,14 +37,16 @@ public class Main2 {
             return diskDrive;
         }
 
-        int cpuSpeed;
-        int diskDrive;
-
-        public spec(String compName, int ram, int cpuSpeed, int diskDrive) {
+        public Spec(String compName, int ram, int cpuSpeed, int diskDrive) {
             this.compName = compName;
             this.ram = ram;
             this.cpuSpeed = cpuSpeed;
             this.diskDrive = diskDrive;
+            this.perf = (2 * ram) + (3 * cpuSpeed) + diskDrive;
+        }
+
+        public boolean greaterThan(Spec other) {
+            return this.perf > other.getPerf() || this.perf == other.getPerf() && this.compName.compareTo(other.getCompName()) > 0;
         }
 
     }
@@ -57,13 +59,14 @@ public class Main2 {
         }
         int count = n;
         int i = 0;
-        spec[] computers = new spec[n];
+        Spec[] computers = new Spec[n];
         String line;
         while ((line = br.readLine()) != null && count > 0) {
             String[] s = line.split(" ");
-            computers[i] = new spec(s[0], Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]));
-            int perf = (2*Integer.parseInt(s[1])) + (3*Integer.parseInt(s[2])) + Integer.parseInt(s[3]);
-            computers[i].setPerf(perf);
+            int ram = Integer.parseInt(s[1]);
+            int cpuSpeed = Integer.parseInt(s[2]);
+            int diskDrive = Integer.parseInt(s[3]);
+            computers[i] = new Spec(s[0], ram, cpuSpeed, diskDrive);
             i++;
             count--;
         }
@@ -73,71 +76,31 @@ public class Main2 {
             return;
         }
 
-        spec first = computers[0];
-        spec second = computers[1];
-        int firstPerf;
-        int secondPerf;
-        String firstChoiceName = first.getCompName(); //fastest
-        String secondChoiceName = second.getCompName(); // secondPlace
-        firstPerf = first.getPerf();
-        secondPerf = second.getPerf();
-        if (firstPerf <= secondPerf) {
-            if (firstPerf == secondPerf) {
-                if (firstChoiceName.compareTo(secondChoiceName) > 0) {
-                    spec temp = first;
-                    first = second;
-                    second = temp;
-                }
-            }
-            else {
-                spec temp = first;
-                first = second;
-                second = temp;
-            }
+        Spec first = computers[0];
+        Spec second = computers[1];
+
+        if (second.greaterThan(first)) {
+            Spec temp = first;
+            first = second;
+            second = temp;
         }
+
 
         for (int j = 2; j < computers.length; j++) {
-            spec current = computers[j];
-            int currentPerformance = current.getPerf();
-            secondPerf = second.getPerf();
-            firstPerf = first.getPerf();
-            String currentCompName = current.getCompName();
-            firstChoiceName = first.getCompName();
-            secondChoiceName = second.getCompName();
+            Spec current = computers[j];
             int temp = -1;
-            spec tempComp;
+            Spec tempComp;
 
-            if (currentPerformance >= secondPerf) {
-                if (currentPerformance >= firstPerf) {
-                    if (currentPerformance == firstPerf) {
-                        if (firstChoiceName.compareTo(currentCompName) > 0) {
-                            tempComp = first;
-                            first = current;
-                            second = tempComp;
-                        }
-                        else {
-                            second = current;
-                        }
-                    }
-                    else {
-                        tempComp = first;
-                        first = current;
-                        second = tempComp;
-                    }
-                }
-                else {
-                    if (currentPerformance == secondPerf) {
-                        if (secondChoiceName.compareTo(currentCompName) > 0) {
-                            second = current;
-                        }
-                    }
-                    else {
-                        second = current;
-                    }
-                }
+            if (current.greaterThan(first)) {
+                tempComp = first;
+                first = current;
+                second = tempComp;
+            } else if (current.greaterThan(second)) {
+                second = current;
+
             }
-
         }
+
 
         System.out.println(first.getCompName());
         System.out.println(second.getCompName());
