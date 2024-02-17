@@ -25,6 +25,7 @@ Some solutions to senior and junior past contest problems for the Canadian Compu
 *   From 1987 To 2013
 *   Gates
 *   Geneva Confection
+*   Good Fours and Good Fives
 *   Good Groups
 *   High Tide, Low Tide
 *   It’s Cold Here
